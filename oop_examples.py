@@ -1,0 +1,231 @@
+# Day 2 - OOP Implementation in Python
+
+# 1. Encapsulation
+#Encapsulation combines data and methods inside a  class.
+# It controls access to the data and helps protect an object's internal state.
+
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.__balance = balance  # Keep balance inside the class
+
+    def deposit(self, amount):
+        if amount <= 0:
+            print("Deposit amount should be greater than zero.")
+            return
+        self.__balance += amount
+        print(f"{amount} deposited successfully.")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            print("Withdrawal amount should be greater than zero.")
+        elif amount > self.__balance:
+            print("Not enough balance.")
+        else:
+            self.__balance -= amount
+            print(f"{amount} withdrawn successfully.")
+
+    def show_balance(self):
+        print(f"{self.owner}'s balance: {self.__balance}")
+
+
+print("\n--- Encapsulation ---")
+account = BankAccount("Ravi", 2000)
+account.deposit(500)
+account.withdraw(300)
+account.show_balance()
+
+
+# 2. Single Inheritance
+# A child class inherits properties and methods from one parent class.
+
+class Employee:
+    def __init__(self, name, employee_id):
+        self.name = name
+        self.employee_id = employee_id
+
+    def show_details(self):
+        print(f"Employee: {self.name}, ID: {self.employee_id}")
+
+
+class Developer(Employee):
+    def write_code(self):
+        print(f"{self.name} is working on a Python task.")
+
+
+print("\n--- Single Inheritance ---")
+developer = Developer("Anil", "E101")
+developer.show_details()
+developer.write_code()
+
+
+# 3. Multiple Inheritance
+# A child class inherits properties and methods from more than one parent class.
+
+class ReportWriter:
+    def create_report(self):
+        print("Creating the weekly report.")
+
+
+class EmailSender:
+    def send_email(self):
+        print("Sending the report by email.")
+
+
+class ReportAssistant(ReportWriter, EmailSender):
+    def finish_report(self):
+        self.create_report()
+        self.send_email()
+
+
+print("\n--- Multiple Inheritance ---")
+assistant = ReportAssistant()
+assistant.finish_report()
+
+
+# 4. Multilevel Inheritance
+# A class inherits from child class forming a chain of inheritance.
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+    def introduce(self):
+        print(f"My name is {self.name}.")
+
+
+class Staff(Person):
+    def attend_meeting(self):
+        print(f"{self.name} is attending the team meeting.")
+
+
+class TeamLead(Staff):
+    def assign_task(self):
+        print(f"{self.name} assigned a task to the team.")
+
+
+print("\n--- Multilevel Inheritance ---")
+lead = TeamLead("Kiran")
+lead.introduce()
+lead.attend_meeting()
+lead.assign_task()
+
+
+# 5. Hierarchical Inheritance
+# Multiple child classes inherit from a single parent class.
+
+class Vehicle:
+    def __init__(self, brand):
+        self.brand = brand
+
+    def start(self):
+        print(f"{self.brand} vehicle started.")
+
+
+class Car(Vehicle):
+    def drive(self):
+        print(f"Driving the {self.brand} car.")
+
+
+class Bike(Vehicle):
+    def ride(self):
+        print(f"Riding the {self.brand} bike.")
+
+
+print("\n--- Hierarchical Inheritance ---")
+car = Car("Toyota")
+bike = Bike("Honda")
+car.start()
+car.drive()
+bike.start()
+bike.ride()
+
+
+# 6. Polymorphism and Method Overriding
+# polymoriphism allows the same method call to behave differently based on the object that invokes it.
+
+class Payment:
+    def pay(self, amount):
+        print(f"Processing payment of {amount}.")
+
+
+class CardPayment(Payment):
+    def pay(self, amount):
+        print(f"Paid {amount} using a card.")
+
+
+class UpiPayment(Payment):
+    def pay(self, amount):
+        print(f"Paid {amount} using UPI.")
+
+
+print("\n--- Polymorphism and Method Overriding ---")
+payment_methods = [CardPayment(), UpiPayment()]
+for method in payment_methods:
+    method.pay(750)
+
+
+# 7. Method overloading using default arguments
+# Python does not support traditional method overloading by signature.
+# Default arguments let one method work with different numbers of inputs.
+class Calculator:
+    def add(self, first, second=0, third=0):
+        return first + second + third
+
+
+print("\n--- Default Arguments ---")
+calculator = Calculator()
+print("One number:", calculator.add(10))
+print("Two numbers:", calculator.add(10, 20))
+print("Three numbers:", calculator.add(10, 20, 30))
+
+
+# 8. Composition
+# composition is a design principle where one class contains an instance of another class.
+# objet owns another object as part of its structure. 
+ 
+class Battery:
+    def power_on(self):
+        print("Battery is supplying power.")
+
+
+class Laptop:
+    def __init__(self, model):
+        self.model = model
+        self.battery = Battery()  # Created inside Laptop
+
+    def start(self):
+        self.battery.power_on()
+        print(f"{self.model} laptop is starting.")
+
+
+print("\n--- Composition ---")
+laptop = Laptop("ThinkPad")
+laptop.start()
+
+
+# 9. Aggregation
+# Aggregation is a has-a relationship where one class contains a reference to another class.
+
+class TeamMember:
+    def __init__(self, name, role):
+        self.name = name
+        self.role = role
+
+
+class Department:
+    def __init__(self, department_name, member):
+        self.department_name = department_name
+        self.member = member  # An existing object is passed in
+
+    def show_member(self):
+        print(
+            f"{self.member.name} works as {self.member.role} "
+            f"in {self.department_name}."
+        )
+
+
+print("\n--- Aggregation ---")
+member = TeamMember("Meena", "Tester")
+department = Department("Software", member)
+department.show_member()
