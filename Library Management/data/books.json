@@ -1,0 +1,9 @@
+[
+    {
+        "book_id": 101,
+        "title": "Advanced Python",
+        "author": "Guido van Rossum",
+        "total_copies": 5,
+        "available_copies": 5
+    }
+]
